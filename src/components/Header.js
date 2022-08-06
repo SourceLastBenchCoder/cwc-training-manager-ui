@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom'
 import {
     MDBNavbar,
     MDBContainer,
@@ -34,18 +35,11 @@ export default function Header() {
                         <MDBCollapse show={showNavColor} navbar>
                             <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
                                 <MDBNavbarItem className='active'>
-                                    <MDBNavbarLink aria-current='page' href='#'>
-                                        Home
-                                    </MDBNavbarLink>
-                                </MDBNavbarItem>
-                                <MDBNavbarItem>
-                                    <MDBNavbarLink href='#'>Features</MDBNavbarLink>
-                                </MDBNavbarItem>
-                                <MDBNavbarItem>
-                                    <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
-                                </MDBNavbarItem>
-                                <MDBNavbarItem>
-                                    <MDBNavbarLink href='#'>About</MDBNavbarLink>
+                                    <Link to='/'>
+                                        <MDBNavbarLink aria-current='page'>
+                                            Home
+                                        </MDBNavbarLink>
+                                    </Link>
                                 </MDBNavbarItem>
                             </MDBNavbarNav>
                         </MDBCollapse>
@@ -53,7 +47,7 @@ export default function Header() {
                 </MDBNavbar>
                 <div
                     className='p-5 text-center bg-image'
-                    style={{ backgroundImage: "url('https://mdbootstrap.com/img/new/slides/041.webp')", height: '400px', marginTop:70}}
+                    style={{ backgroundImage: "url('https://mdbootstrap.com/img/new/slides/041.webp')", height: '400px', marginTop: 70 }}
                 >
                     <div className='mask' style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
                         <div className='d-flex justify-content-center align-items-center h-100'>

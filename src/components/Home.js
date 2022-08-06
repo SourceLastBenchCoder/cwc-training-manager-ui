@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
     MDBRow,
     MDBCard,
@@ -26,21 +27,23 @@ function Home() {
 
     const cardData = admin.map((result) => {
         return (
-            <MDBCol>
-                <MDBCard className='h-100'>
-                    <MDBCardImage
-                        src={result.avatar}
-                        alt='...'
-                        position='top'
-                    />
+            <MDBCol key={result._id}>
+                <MDBCard className='h-100'>                   
+                    <Link to={{ pathname: '/admindetail/' + result._id }}>
+                        <MDBCardImage
+                            src={result.avatar}
+                            alt='...'
+                            position='top'
+                        />
+                    </Link>
                     <MDBCardBody>
                         <MDBCardTitle>{result.fullName}</MDBCardTitle>
                         <MDBCardText>
                             {result.emailId}
-                            <br/>
+                            <br />
                             {result.phoneNo}
-                            <br/>
-                            Created On : {result.dateCreated}                            
+                            <br />
+                            Created On : {result.dateCreated}
                         </MDBCardText>
                     </MDBCardBody>
                 </MDBCard>
