@@ -23,14 +23,16 @@ function AdminDetail() {
     }, [])
 
     return (       
-        <MDBContainer> <br/> <br/>
+        <MDBContainer style={{marginTop:70}}>
             <MDBRow>
+                <h2>Admin Detail</h2>
+                <hr/>
                 <MDBCard>
                     <MDBRow className='g-0'>
-                        <MDBCol md='4'>
-                            <MDBCardImage src={admin.avatar} alt='...' fluid />
+                        <MDBCol md='2'>
+                            <MDBCardImage src={admin.avatar} alt='...' fluid  className='img-fluid rounded-circle'/>
                         </MDBCol>
-                        <MDBCol md='8'>
+                        <MDBCol md='10'>
                             <MDBCardBody>
                                 <MDBCardTitle>{admin.fullName}</MDBCardTitle>
                                 <hr/>

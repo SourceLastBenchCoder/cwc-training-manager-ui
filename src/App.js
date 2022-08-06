@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AdminDetail from './components/admin/AdminDetail';
+import AdminCreate from './components/admin/AdminCreate';
 
 function App() {
   return (
@@ -13,8 +14,10 @@ function App() {
         <Header />
         <Routes>
           <Route exact path='/' element={<Home />} />
+          <Route exact path='/admin-create' element={<AdminCreate />} />
           <Route path='/admindetail/:adminId' element={<AdminDetail />} />
         </Routes>
+        <hr/>
         <Footer />
       </MDBContainer>
     </Router>
