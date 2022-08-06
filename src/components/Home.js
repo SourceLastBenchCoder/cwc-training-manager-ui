@@ -11,7 +11,6 @@ import {
     MDBCardGroup,
     MDBCol
 } from 'mdb-react-ui-kit';
-import { set } from 'mongoose';
 
 function Home() {
 
