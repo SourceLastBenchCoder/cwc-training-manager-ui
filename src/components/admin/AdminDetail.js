@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams,Link } from 'react-router-dom'
 import {
     MDBContainer, MDBRow, MDBCard,
     MDBCardTitle,
     MDBCardText,
     MDBCardBody,
     MDBCardImage,
-    MDBCol
+    MDBCol,
+    MDBBtn
 } from 'mdb-react-ui-kit'
 
 function AdminDetail() {
@@ -15,6 +16,9 @@ function AdminDetail() {
     const adminParam = useParams()
 
     useEffect(() => {
+
+        document.title="Training Manager - Admin Detail"
+
         fetch('https://cwc-training-manager-api.herokuapp.com/api/administrator/' + adminParam.adminId)
             .then(result => result.json())
             .then(res => {
@@ -54,6 +58,9 @@ function AdminDetail() {
                 </MDBCard>
             </MDBRow>
             <br/> <br/>
+            <Link to={{pathname:"/admin-update/"+admin._id}} className="btn btn-primary">Edit Detail</Link>
+            &nbsp;
+            <Link to={{pathname:"/"}} className="btn btn-danger">Go To Home</Link>
         </MDBContainer>
     )
 }

@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AdminDetail from './components/admin/AdminDetail';
 import AdminCreate from './components/admin/AdminCreate';
+import AdminUpdate from './components/admin/AdminUpdate';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path='/' element={<Home />} />
           <Route exact path='/admin-create' element={<AdminCreate />} />
           <Route path='/admindetail/:adminId' element={<AdminDetail />} />
+          <Route path='/admin-update/:adminId' element={<AdminUpdate />} />
         </Routes>
         <hr/>
         <Footer />

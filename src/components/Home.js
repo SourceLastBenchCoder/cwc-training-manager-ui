@@ -18,6 +18,9 @@ function Home() {
     const [admin, setAdmin] = useState([])
 
     useEffect(() => {
+
+        document.title="Training Manager - Home"
+
         fetch('https://cwc-training-manager-api.herokuapp.com/api/administrator')
             .then(result => result.json())
             .then(resp => {
