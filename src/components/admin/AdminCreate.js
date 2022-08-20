@@ -1,5 +1,7 @@
 import { MDBContainer, MDBInput, MDBRow, MDBCol, MDBBtn } from 'mdb-react-ui-kit'
 import React, { useEffect, useState } from 'react'
+import { BASE_URL } from '../constants/AppConst.js'
+
 
 function AdminCreate() {
     const initialData = {
@@ -13,10 +15,11 @@ function AdminCreate() {
     }
 
     const [admin, setAdmin] = useState(initialData)
+    const [image, setImage] = useState({ preview: '', data: '' })
     const [isSubmitted, setIsSubmitted] = useState(false)
 
-    useEffect(()=>{
-        document.title="Training Manager - Create Admin"
+    useEffect(() => {
+        document.title = "Training Manager - Create Admin"
     })
 
     const inputChange = (e) => {
@@ -28,15 +31,21 @@ function AdminCreate() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        alert(admin.fullName)
+        
+        let formData = new FormData()
+        formData.append('file', image.data)
+        fetch(`${BASE_URL}/upload`, {
+            method: 'POST',
+            body: formData,
+        })
 
-        fetch("https://cwc-training-manager-api.herokuapp.com/api/administrator/", {
+        fetch(`${BASE_URL}/administrator/`, {
             method: "post",
             body: JSON.stringify({
                 fullName: admin.fullName,
                 emailId: admin.emailId,
                 phoneNo: admin.phoneNo,
-                avatar: admin.avatar,
+                avatar: image.data.name,
                 loginId: admin.loginId,
                 password: admin.password,
                 status: admin.status
@@ -49,40 +58,50 @@ function AdminCreate() {
             })
     }
 
+    const handleFileChange = (e) => {
+        console.log(e.target.files[0])
+        const img = {
+            preview: URL.createObjectURL(e.target.files[0]),
+            data: e.target.files[0],
+        }
+        setImage(img)
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <MDBContainer style={{ marginTop: 70 }}>
-            <MDBRow>
+                <MDBRow>
                     <h2>Create New Admin</h2>
                     {(isSubmitted) ? (<p>Data Submitted Successfully</p>) : ("")}
                     <hr />
                     <MDBRow>
                         <MDBCol md='4'>
-                            <MDBInput required label='Full Name' id='formControlLg' type='text' size='lg' onChange={inputChange} name="fullName" value={admin.fullName}/>
+                            <MDBInput required label='Full Name' id='formControlLg' type='text' size='lg' onChange={inputChange} name="fullName" value={admin.fullName} />
                         </MDBCol>
                         <MDBCol md='4'>
-                            <MDBInput required label='Email Id' id='formControlLg' type='email' size='lg' onChange={inputChange} name="emailId" value={admin.emailId}/>
+                            <MDBInput required label='Email Id' id='formControlLg' type='email' size='lg' onChange={inputChange} name="emailId" value={admin.emailId} />
                         </MDBCol>
                         <MDBCol md='4'>
-                            <MDBInput required label='Phone No' id='formControlLg' type='number' size='lg' onChange={inputChange} name="phoneNo" value={admin.phoneNo}/>
+                            <MDBInput required label='Phone No' id='formControlLg' type='number' size='lg' onChange={inputChange} name="phoneNo" value={admin.phoneNo} />
                         </MDBCol>
                     </MDBRow>
                     <br /><br /><br />
                     <MDBRow>
                         <MDBCol md='4'>
-                            <MDBInput required label='LoginId' id='formControlLg' type='text' size='lg' onChange={inputChange} name="loginId" value={admin.loginId}/>
+                            <MDBInput required label='LoginId' id='formControlLg' type='text' size='lg' onChange={inputChange} name="loginId" value={admin.loginId} />
                         </MDBCol>
                         <MDBCol md='4'>
-                            <MDBInput required label='Password' id='formControlLg' type='password' size='lg' onChange={inputChange} name="password" value={admin.password}/>
+                            <MDBInput required label='Password' id='formControlLg' type='password' size='lg' onChange={inputChange} name="password" value={admin.password} />
                         </MDBCol>
                         <MDBCol md='4'>
-                            <MDBInput required label='Status' id='formControlLg' type='text' size='lg' onChange={inputChange} name="status" value={admin.status}/>
+                            <MDBInput required label='Status' id='formControlLg' type='text' size='lg' onChange={inputChange} name="status" value={admin.status} />
                         </MDBCol>
                     </MDBRow>
                     <br /><br /><br />
                     <MDBRow>
                         <MDBCol md='12'>
-                            <MDBInput required label='Avatar URL' id='formControlLg' type='text' size='sm' onChange={inputChange} name="avatar" value={admin.avatar}/>
+                            {image.preview && <img src={image.preview} width='100' height='100' />}
+                            <input type='file' name='file' onChange={handleFileChange}></input>
                         </MDBCol>
                     </MDBRow>
                     <br /><br />

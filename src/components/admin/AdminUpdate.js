@@ -1,6 +1,7 @@
 import { MDBContainer, MDBInput, MDBRow, MDBCol, MDBBtn } from 'mdb-react-ui-kit'
 import React, { useState, useEffect } from 'react'
-import { useParams,Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import { BASE_URL } from '../constants/AppConst.js'
 
 function AdminUpdate() {
     const initialData = {
@@ -14,6 +15,7 @@ function AdminUpdate() {
     }
 
     const [admin, setAdmin] = useState(initialData)
+    const [image, setImage] = useState({ preview: '', data: '' })
     const [isSubmitted, setIsSubmitted] = useState(false)
     const adminParam = useParams()
 
@@ -28,7 +30,7 @@ function AdminUpdate() {
     }
 
     useEffect(() => {
-        fetch('https://cwc-training-manager-api.herokuapp.com/api/administrator/' + adminParam.adminId)
+        fetch(`${BASE_URL}/administrator/` + adminParam.adminId)
             .then(result => result.json())
             .then(res => {
                 setAdmin(res)
@@ -37,15 +39,21 @@ function AdminUpdate() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        alert(admin.fullName)
 
-        fetch("https://cwc-training-manager-api.herokuapp.com/api/administrator/" + adminParam.adminId, {
+        let formData = new FormData()
+        formData.append('file', image.data)
+        fetch(`${BASE_URL}/images/`, {
+            method: 'POST',
+            body: formData,
+        })
+
+        fetch(`${BASE_URL}/administrator/` + adminParam.adminId, {
             method: "put",
             body: JSON.stringify({
                 fullName: admin.fullName,
                 emailId: admin.emailId,
                 phoneNo: admin.phoneNo,
-                avatar: admin.avatar,
+                avatar: image.data.name,
                 loginId: admin.loginId,
                 password: admin.password,
                 status: admin.status
@@ -56,6 +64,15 @@ function AdminUpdate() {
                 setIsSubmitted(true)
                 setAdmin(initialData)
             })
+    }
+
+    const handleFileChange = (e) => {
+        console.log(e.target.files[0])
+        const img = {
+            preview: URL.createObjectURL(e.target.files[0]),
+            data: e.target.files[0],
+        }
+        setImage(img)
     }
 
     return (
@@ -91,7 +108,10 @@ function AdminUpdate() {
                     <br /><br /><br />
                     <MDBRow>
                         <MDBCol md='12'>
-                            <MDBInput required label='Avatar URL' id='formControlLg' type='text' size='sm' onChange={inputChange} name="avatar" value={admin.avatar} />
+                            <MDBCol md='12'>
+                                {image.preview && <img src={image.preview} width='100' height='100' />}
+                                <input type='file' name='file' onChange={handleFileChange}></input>
+                            </MDBCol>
                         </MDBCol>
                     </MDBRow>
                     <br /><br />
@@ -99,7 +119,7 @@ function AdminUpdate() {
                         <MDBCol md='4'>
                             <MDBBtn type="submit">Update</MDBBtn>
                             &nbsp;&nbsp;
-                            <Link to={{pathname:"/admindetail/"+admin._id}} className="btn btn-primary">Back To Detail</Link>
+                            <Link to={{ pathname: "/admindetail/" + admin._id }} className="btn btn-primary">Back To Detail</Link>
                         </MDBCol>
                     </MDBRow>
                 </MDBRow>

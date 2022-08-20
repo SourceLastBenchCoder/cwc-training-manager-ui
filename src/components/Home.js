@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { BASE_URL } from './constants/AppConst';
 import {
     MDBRow,
     MDBCard,
@@ -8,8 +9,6 @@ import {
     MDBCardText,
     MDBCardImage,
     MDBBtn,
-    MDBRipple,
-    MDBCardGroup,
     MDBCol
 } from 'mdb-react-ui-kit';
 
@@ -19,9 +18,9 @@ function Home() {
 
     useEffect(() => {
 
-        document.title="Training Manager - Home"
+        document.title = "Training Manager - Home"
 
-        fetch('https://cwc-training-manager-api.herokuapp.com/api/administrator')
+        fetch(BASE_URL + '/administrator')
             .then(result => result.json())
             .then(resp => {
                 setAdmin(resp)

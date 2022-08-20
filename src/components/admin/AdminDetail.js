@@ -9,6 +9,7 @@ import {
     MDBCol,
     MDBBtn
 } from 'mdb-react-ui-kit'
+import { BASE_URL } from '../constants/AppConst.js'
 
 function AdminDetail() {
 
@@ -19,7 +20,7 @@ function AdminDetail() {
 
         document.title="Training Manager - Admin Detail"
 
-        fetch('https://cwc-training-manager-api.herokuapp.com/api/administrator/' + adminParam.adminId)
+        fetch(`${BASE_URL}/administrator/` + adminParam.adminId)
             .then(result => result.json())
             .then(res => {
                 setAdmin(res)

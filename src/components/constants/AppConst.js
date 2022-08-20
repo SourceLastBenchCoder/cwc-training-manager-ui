@@ -1,0 +1,1 @@
+export const BASE_URL = "https://cwc-training-manager-api.herokuapp.com/api"
