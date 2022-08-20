@@ -42,7 +42,7 @@ function AdminUpdate() {
 
         let formData = new FormData()
         formData.append('file', image.data)
-        fetch(`${BASE_URL}/images/`, {
+        fetch(`${BASE_URL}/upload/`, {
             method: 'POST',
             body: formData,
         })
