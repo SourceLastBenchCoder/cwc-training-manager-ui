@@ -1,7 +1,7 @@
 import { MDBContainer, MDBInput, MDBRow, MDBCol, MDBBtn } from 'mdb-react-ui-kit'
 import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { BASE_URL } from '../constants/AppConst.js'
+import { BASE_URL, IMAGE_URL } from '../constants/AppConst.js'
 
 function AdminUpdate() {
     const initialData = {
@@ -21,19 +21,32 @@ function AdminUpdate() {
 
     const inputChange = (e) => {
 
-        document.title = "Training Manager - Update Admin"
-
         const { name, value } = e.target
         setAdmin({
             ...admin, [name]: value
         })
+
+        if (name == 'avatar' && value != '') {
+
+            const img = {
+                preview: value
+            }
+            setImage(img)
+        }
     }
 
     useEffect(() => {
+
+        document.title = "Training Manager - Update Admin"
+
         fetch(`${BASE_URL}/administrator/` + adminParam.adminId)
             .then(result => result.json())
             .then(res => {
                 setAdmin(res)
+                const img = {
+                    preview: res.avatar
+                }
+                setImage(img)
             })
     }, [])
 
@@ -53,7 +66,7 @@ function AdminUpdate() {
                 fullName: admin.fullName,
                 emailId: admin.emailId,
                 phoneNo: admin.phoneNo,
-                avatar: image.data.name,
+                avatar: (admin.avatar) ? admin.avatar : `${IMAGE_URL}\image.data.name`,
                 loginId: admin.loginId,
                 password: admin.password,
                 status: admin.status
@@ -63,6 +76,7 @@ function AdminUpdate() {
             .then(resp => {
                 setIsSubmitted(true)
                 setAdmin(initialData)
+                setImage({ preview: '', data: '' })
             })
     }
 
@@ -72,6 +86,7 @@ function AdminUpdate() {
             preview: URL.createObjectURL(e.target.files[0]),
             data: e.target.files[0],
         }
+        admin.avatar = ''
         setImage(img)
     }
 
@@ -108,10 +123,17 @@ function AdminUpdate() {
                     <br /><br /><br />
                     <MDBRow>
                         <MDBCol md='12'>
-                            <MDBCol md='12'>
-                                {image.preview && <img src={image.preview} width='100' height='100' />}
-                                <input type='file' name='file' onChange={handleFileChange}></input>
-                            </MDBCol>
+                            {image.preview && <img src={image.preview} width='100' height='100' />}
+                            <input type='file' name='file' onChange={handleFileChange}></input>
+                            <h2>OR</h2>
+                            <MDBInput required label='avatar' id='formControlLg' type='text' size='lg'
+                                onChange={inputChange}
+                                name="avatar" value={admin.avatar} />
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol md='12'>
+                            <hr />
                         </MDBCol>
                     </MDBRow>
                     <br /><br />
